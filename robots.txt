@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://eppie-hb.github.io/sitemap.xml

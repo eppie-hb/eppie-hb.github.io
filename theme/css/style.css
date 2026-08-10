@@ -1,0 +1,414 @@
+/*
+ * style.css — portfolio refinements layered over Poole + Hyde.
+ *
+ * Loaded last, so it intentionally overrides a few theme defaults.
+ * Palette is derived from the existing Base16 Ocean sidebar colour
+ * (#6a9fb5) rather than introducing a new one; the accent is darkened
+ * for text use because #6a9fb5 on white is only ~2.5:1 (WCAG AA fail).
+ *
+ * Metadata (dates, employers, figures) is set in a monospace utility
+ * face — a nod to broadcast schedule and transmission logs, and a way
+ * to separate facts from prose without adding more colour.
+ */
+
+:root {
+	--accent: #3f7387;          /* 5.2:1 on white */
+	--accent-soft: #6a9fb5;     /* theme sidebar colour */
+	--ink: #2b303b;
+	--ink-soft: #65737e;
+	--rule: #dfe3e8;
+	--bg-soft: #f7f9fa;
+	--mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
+}
+
+/* ---------- Base ---------- */
+
+body {
+	color: var(--ink);
+}
+
+.content.container {
+	max-width: 42rem;
+}
+
+/* Poole's default link colour and Hyde's theme override both fail
+   contrast; this wins on specificity. */
+body.theme-base-0d .content a {
+	color: var(--accent);
+}
+
+body.theme-base-0d .content a:hover,
+body.theme-base-0d .content a:focus {
+	color: #2f5a6b;
+}
+
+/* Visible keyboard focus — neither Poole nor Hyde provides one. */
+a:focus-visible,
+.btn:focus-visible {
+	outline: 2px solid var(--accent);
+	outline-offset: 2px;
+	border-radius: 2px;
+}
+
+.skip-link {
+	position: absolute;
+	left: -9999px;
+	top: 0;
+	z-index: 100;
+	padding: .6rem 1rem;
+	background: #fff;
+	color: var(--accent);
+	font-weight: 700;
+}
+
+.skip-link:focus {
+	left: .5rem;
+	top: .5rem;
+}
+
+/* ---------- Sidebar ---------- */
+
+.sidebar-role {
+	margin-top: -.35rem;
+	font-family: var(--mono);
+	font-size: .72rem;
+	line-height: 1.5;
+	letter-spacing: .01em;
+	color: rgba(255, 255, 255, .75);
+}
+
+.sidebar-nav {
+	margin-top: 1.25rem;
+}
+
+/* ---------- Shared typography ---------- */
+
+.lede {
+	font-size: 1.12rem;
+	line-height: 1.6;
+	color: var(--ink);
+}
+
+h1 {
+	margin-bottom: .35rem;
+}
+
+h2 {
+	margin-top: 2rem;
+}
+
+.section-break {
+	margin-top: 3rem;
+	padding-top: 1.25rem;
+	border-top: 1px solid var(--rule);
+	font-size: 1.1rem;
+	text-transform: uppercase;
+	letter-spacing: .08em;
+	color: var(--ink-soft);
+}
+
+/* ---------- Homepage ---------- */
+
+.intro h1 {
+	margin-bottom: .2rem;
+}
+
+.intro-role {
+	margin: 0 0 1rem;
+	font-family: var(--mono);
+	font-size: .82rem;
+	letter-spacing: .02em;
+	text-transform: uppercase;
+	color: var(--accent);
+}
+
+.intro-lead {
+	font-size: 1.15rem;
+	line-height: 1.6;
+}
+
+.intro-actions {
+	margin: 1.5rem 0 0;
+}
+
+.btn {
+	display: inline-block;
+	margin: 0 .5rem .5rem 0;
+	padding: .55rem 1.1rem;
+	border: 1px solid var(--accent);
+	border-radius: 3px;
+	font-size: .95rem;
+	text-decoration: none;
+}
+
+.btn-primary,
+body.theme-base-0d .content .btn-primary {
+	background: var(--accent);
+	color: #fff;
+}
+
+.btn-primary:hover,
+body.theme-base-0d .content .btn-primary:hover {
+	background: #2f5a6b;
+	color: #fff;
+}
+
+.impact-grid {
+	list-style: none;
+	margin: 1rem 0 0;
+	padding: 0;
+	display: grid;
+	gap: 1px;
+	background: var(--rule);
+	border: 1px solid var(--rule);
+}
+
+@media (min-width: 30em) {
+	.impact-grid {
+		grid-template-columns: 1fr 1fr;
+	}
+}
+
+.impact-grid li {
+	margin: 0;
+	padding: 1rem 1.1rem;
+	background: #fff;
+}
+
+.impact-figure {
+	display: block;
+	font-family: var(--mono);
+	font-size: 1.6rem;
+	line-height: 1.1;
+	color: var(--accent);
+}
+
+.impact-label {
+	display: block;
+	margin-top: .4rem;
+	font-size: .88rem;
+	line-height: 1.45;
+	color: var(--ink-soft);
+}
+
+.whereto-list {
+	padding-left: 1.1rem;
+}
+
+.whereto-list li {
+	margin-bottom: .4rem;
+	color: var(--ink-soft);
+}
+
+/* ---------- Experience ---------- */
+
+/* Hairline strip with the date as a mono eyebrow: reads like a
+   schedule entry rather than a stack of headings. */
+.role {
+	margin: 2.25rem 0;
+	padding-left: 1.1rem;
+	border-left: 2px solid var(--accent-soft);
+}
+
+.role h2,
+.role h3 {
+	margin: 0 0 .15rem;
+	font-size: 1.22rem;
+	line-height: 1.3;
+}
+
+.role h3 {
+	font-size: 1.08rem;
+}
+
+.role-org {
+	margin: 0;
+	font-size: .98rem;
+	color: var(--ink);
+}
+
+.role-meta {
+	margin: .1rem 0 .75rem;
+	font-family: var(--mono);
+	font-size: .74rem;
+	letter-spacing: .02em;
+	text-transform: uppercase;
+	color: var(--ink-soft);
+}
+
+.impact-list {
+	margin: 0;
+	padding-left: 1.1rem;
+}
+
+.impact-list li {
+	margin-bottom: .4rem;
+	line-height: 1.55;
+}
+
+.role-focus {
+	margin: .75rem 0 0;
+	font-size: .86rem;
+	color: var(--ink-soft);
+}
+
+.role-focus span {
+	font-family: var(--mono);
+	font-size: .74rem;
+	text-transform: uppercase;
+	letter-spacing: .04em;
+}
+
+.role-earlier {
+	border-left-color: var(--rule);
+}
+
+.role-earlier .impact-list li {
+	font-size: .94rem;
+}
+
+/* ---------- Skills ---------- */
+
+.skill-group {
+	margin-bottom: 1.75rem;
+}
+
+.skill-group h2 {
+	margin-bottom: .5rem;
+	padding-bottom: .35rem;
+	border-bottom: 1px solid var(--rule);
+	font-size: 1.05rem;
+	text-transform: uppercase;
+	letter-spacing: .06em;
+	color: var(--ink-soft);
+}
+
+.skill-list {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	display: flex;
+	flex-wrap: wrap;
+	gap: .4rem;
+}
+
+.skill-list li {
+	margin: 0;
+	padding: .3rem .7rem;
+	background: var(--bg-soft);
+	border: 1px solid var(--rule);
+	border-radius: 999px;
+	font-size: .86rem;
+}
+
+.skill-note {
+	margin: 0 0 .6rem;
+	font-size: .88rem;
+	color: var(--ink-soft);
+}
+
+.skill-group-secondary .skill-list li {
+	background: transparent;
+	color: var(--ink-soft);
+}
+
+/* ---------- Education ---------- */
+
+.credential-list {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+
+.credential-list li {
+	margin-bottom: 1.1rem;
+	padding-left: 1.1rem;
+	border-left: 2px solid var(--accent-soft);
+}
+
+.credential-title {
+	margin: 0;
+	font-weight: 700;
+	line-height: 1.35;
+}
+
+.credential-org {
+	margin: .1rem 0 0;
+	font-family: var(--mono);
+	font-size: .76rem;
+	color: var(--ink-soft);
+}
+
+.credential-list-secondary li {
+	border-left-color: var(--rule);
+}
+
+/* ---------- Awards ---------- */
+
+.award {
+	margin-bottom: 1.85rem;
+}
+
+.award h2 {
+	margin: 0 0 .15rem;
+	font-size: 1.15rem;
+	line-height: 1.3;
+}
+
+.award-meta {
+	margin: 0 0 .5rem;
+	font-family: var(--mono);
+	font-size: .74rem;
+	letter-spacing: .02em;
+	text-transform: uppercase;
+	color: var(--ink-soft);
+}
+
+.award p:not(.award-meta) {
+	margin: 0;
+	line-height: 1.55;
+}
+
+.contact-cta {
+	margin-top: 2rem;
+	padding-top: 1.25rem;
+	border-top: 1px solid var(--rule);
+}
+
+/* ---------- Motion & print ---------- */
+
+@media (prefers-reduced-motion: reduce) {
+	* {
+		animation-duration: .01ms !important;
+		transition-duration: .01ms !important;
+	}
+}
+
+@media print {
+	.sidebar,
+	.skip-link,
+	.intro-actions {
+		display: none;
+	}
+
+	.content.container {
+		max-width: none;
+		margin: 0;
+		padding: 0;
+	}
+
+	body {
+		font-size: 11pt;
+	}
+
+	.role,
+	.award,
+	.skill-group {
+		page-break-inside: avoid;
+	}
+
+	a {
+		color: #000;
+		text-decoration: underline;
+	}
+}
