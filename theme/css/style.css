@@ -1,414 +1,708 @@
 /*
- * style.css — portfolio refinements layered over Poole + Hyde.
+ * Eppie HB — portfolio styles.
  *
- * Loaded last, so it intentionally overrides a few theme defaults.
- * Palette is derived from the existing Base16 Ocean sidebar colour
- * (#6a9fb5) rather than introducing a new one; the accent is darkened
- * for text use because #6a9fb5 on white is only ~2.5:1 (WCAG AA fail).
+ * Self-contained: replaces the previous Poole + Hyde theme, whose fixed
+ * sidebar was the layout's main age tell. No build step, no framework.
  *
- * Metadata (dates, employers, figures) is set in a monospace utility
- * face — a nod to broadcast schedule and transmission logs, and a way
- * to separate facts from prose without adding more colour.
+ * Visual language borrows from the subject's own field. Anything factual
+ * — dates, durations, figures — is set in a monospace instrument face;
+ * prose stays in the sans. The career timeline is drawn as a programme
+ * schedule: employers are channels, years are the time axis, roles are
+ * blocks sized by duration.
+ *
+ * Colour follows the visitor's system setting. There is no toggle, so
+ * both modes are first-class and every pair below is contrast-checked
+ * at 4.5:1 or better.
  */
 
+@layer reset, base, layout, components, print;
+
+/* ============ tokens ============ */
+
 :root {
-	--accent: #3f7387;          /* 5.2:1 on white */
-	--accent-soft: #6a9fb5;     /* theme sidebar colour */
-	--ink: #2b303b;
-	--ink-soft: #65737e;
-	--rule: #dfe3e8;
-	--bg-soft: #f7f9fa;
-	--mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
+	color-scheme: light dark;
+
+	--bg: #fafbfc;
+	--surface: #ffffff;
+	--panel: #e9eef5;
+	--edge: #dde3ea;
+	--edge-soft: #e8edf2;
+	--text: #1b2430;
+	--dim: #5b6979;
+	--accent: #2f6d84;
+	--accent-hover: #24576b;
+	--onair: #b03a68;
+	--track: #dde4ec;
+
+	--font-sans: Archivo, ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+	--font-mono: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+
+	--step--1: clamp(0.78rem, 0.76rem + 0.08vw, 0.82rem);
+	--step-0: clamp(1rem, 0.97rem + 0.14vw, 1.06rem);
+	--step-1: clamp(1.14rem, 1.08rem + 0.28vw, 1.3rem);
+	--step-2: clamp(1.34rem, 1.22rem + 0.52vw, 1.66rem);
+	--step-3: clamp(1.9rem, 1.5rem + 1.9vw, 3rem);
+
+	--measure: 36rem;
+	--shell: 60rem;
+	--radius: 6px;
 }
 
-/* ---------- Base ---------- */
-
-body {
-	color: var(--ink);
-}
-
-.content.container {
-	max-width: 42rem;
-}
-
-/* Poole's default link colour and Hyde's theme override both fail
-   contrast; this wins on specificity. */
-body.theme-base-0d .content a {
-	color: var(--accent);
-}
-
-body.theme-base-0d .content a:hover,
-body.theme-base-0d .content a:focus {
-	color: #2f5a6b;
-}
-
-/* Visible keyboard focus — neither Poole nor Hyde provides one. */
-a:focus-visible,
-.btn:focus-visible {
-	outline: 2px solid var(--accent);
-	outline-offset: 2px;
-	border-radius: 2px;
-}
-
-.skip-link {
-	position: absolute;
-	left: -9999px;
-	top: 0;
-	z-index: 100;
-	padding: .6rem 1rem;
-	background: #fff;
-	color: var(--accent);
-	font-weight: 700;
-}
-
-.skip-link:focus {
-	left: .5rem;
-	top: .5rem;
-}
-
-/* ---------- Sidebar ---------- */
-
-.sidebar-role {
-	margin-top: -.35rem;
-	font-family: var(--mono);
-	font-size: .72rem;
-	line-height: 1.5;
-	letter-spacing: .01em;
-	color: rgba(255, 255, 255, .75);
-}
-
-.sidebar-nav {
-	margin-top: 1.25rem;
-}
-
-/* ---------- Shared typography ---------- */
-
-.lede {
-	font-size: 1.12rem;
-	line-height: 1.6;
-	color: var(--ink);
-}
-
-h1 {
-	margin-bottom: .35rem;
-}
-
-h2 {
-	margin-top: 2rem;
-}
-
-.section-break {
-	margin-top: 3rem;
-	padding-top: 1.25rem;
-	border-top: 1px solid var(--rule);
-	font-size: 1.1rem;
-	text-transform: uppercase;
-	letter-spacing: .08em;
-	color: var(--ink-soft);
-}
-
-/* ---------- Homepage ---------- */
-
-.intro h1 {
-	margin-bottom: .2rem;
-}
-
-.intro-role {
-	margin: 0 0 1rem;
-	font-family: var(--mono);
-	font-size: .82rem;
-	letter-spacing: .02em;
-	text-transform: uppercase;
-	color: var(--accent);
-}
-
-.intro-lead {
-	font-size: 1.15rem;
-	line-height: 1.6;
-}
-
-.intro-actions {
-	margin: 1.5rem 0 0;
-}
-
-.btn {
-	display: inline-block;
-	margin: 0 .5rem .5rem 0;
-	padding: .55rem 1.1rem;
-	border: 1px solid var(--accent);
-	border-radius: 3px;
-	font-size: .95rem;
-	text-decoration: none;
-}
-
-.btn-primary,
-body.theme-base-0d .content .btn-primary {
-	background: var(--accent);
-	color: #fff;
-}
-
-.btn-primary:hover,
-body.theme-base-0d .content .btn-primary:hover {
-	background: #2f5a6b;
-	color: #fff;
-}
-
-.impact-grid {
-	list-style: none;
-	margin: 1rem 0 0;
-	padding: 0;
-	display: grid;
-	gap: 1px;
-	background: var(--rule);
-	border: 1px solid var(--rule);
-}
-
-@media (min-width: 30em) {
-	.impact-grid {
-		grid-template-columns: 1fr 1fr;
+@media (prefers-color-scheme: dark) {
+	:root {
+		--bg: #131922;
+		--surface: #1a212c;
+		--panel: #212a37;
+		--edge: #2d3846;
+		--edge-soft: #242e3b;
+		--text: #e6ebf2;
+		--dim: #93a2b5;
+		--accent: #6fc5db;
+		--accent-hover: #93d6e7;
+		--onair: #e2739c;
+		--track: #232d3a;
 	}
 }
 
-.impact-grid li {
-	margin: 0;
-	padding: 1rem 1.1rem;
-	background: #fff;
-}
+/* ============ reset + base ============ */
 
-.impact-figure {
-	display: block;
-	font-family: var(--mono);
-	font-size: 1.6rem;
-	line-height: 1.1;
-	color: var(--accent);
-}
+@layer reset {
+	*, *::before, *::after { box-sizing: border-box; }
 
-.impact-label {
-	display: block;
-	margin-top: .4rem;
-	font-size: .88rem;
-	line-height: 1.45;
-	color: var(--ink-soft);
-}
-
-.whereto-list {
-	padding-left: 1.1rem;
-}
-
-.whereto-list li {
-	margin-bottom: .4rem;
-	color: var(--ink-soft);
-}
-
-/* ---------- Experience ---------- */
-
-/* Hairline strip with the date as a mono eyebrow: reads like a
-   schedule entry rather than a stack of headings. */
-.role {
-	margin: 2.25rem 0;
-	padding-left: 1.1rem;
-	border-left: 2px solid var(--accent-soft);
-}
-
-.role h2,
-.role h3 {
-	margin: 0 0 .15rem;
-	font-size: 1.22rem;
-	line-height: 1.3;
-}
-
-.role h3 {
-	font-size: 1.08rem;
-}
-
-.role-org {
-	margin: 0;
-	font-size: .98rem;
-	color: var(--ink);
-}
-
-.role-meta {
-	margin: .1rem 0 .75rem;
-	font-family: var(--mono);
-	font-size: .74rem;
-	letter-spacing: .02em;
-	text-transform: uppercase;
-	color: var(--ink-soft);
-}
-
-.impact-list {
-	margin: 0;
-	padding-left: 1.1rem;
-}
-
-.impact-list li {
-	margin-bottom: .4rem;
-	line-height: 1.55;
-}
-
-.role-focus {
-	margin: .75rem 0 0;
-	font-size: .86rem;
-	color: var(--ink-soft);
-}
-
-.role-focus span {
-	font-family: var(--mono);
-	font-size: .74rem;
-	text-transform: uppercase;
-	letter-spacing: .04em;
-}
-
-.role-earlier {
-	border-left-color: var(--rule);
-}
-
-.role-earlier .impact-list li {
-	font-size: .94rem;
-}
-
-/* ---------- Skills ---------- */
-
-.skill-group {
-	margin-bottom: 1.75rem;
-}
-
-.skill-group h2 {
-	margin-bottom: .5rem;
-	padding-bottom: .35rem;
-	border-bottom: 1px solid var(--rule);
-	font-size: 1.05rem;
-	text-transform: uppercase;
-	letter-spacing: .06em;
-	color: var(--ink-soft);
-}
-
-.skill-list {
-	list-style: none;
-	margin: 0;
-	padding: 0;
-	display: flex;
-	flex-wrap: wrap;
-	gap: .4rem;
-}
-
-.skill-list li {
-	margin: 0;
-	padding: .3rem .7rem;
-	background: var(--bg-soft);
-	border: 1px solid var(--rule);
-	border-radius: 999px;
-	font-size: .86rem;
-}
-
-.skill-note {
-	margin: 0 0 .6rem;
-	font-size: .88rem;
-	color: var(--ink-soft);
-}
-
-.skill-group-secondary .skill-list li {
-	background: transparent;
-	color: var(--ink-soft);
-}
-
-/* ---------- Education ---------- */
-
-.credential-list {
-	list-style: none;
-	margin: 0;
-	padding: 0;
-}
-
-.credential-list li {
-	margin-bottom: 1.1rem;
-	padding-left: 1.1rem;
-	border-left: 2px solid var(--accent-soft);
-}
-
-.credential-title {
-	margin: 0;
-	font-weight: 700;
-	line-height: 1.35;
-}
-
-.credential-org {
-	margin: .1rem 0 0;
-	font-family: var(--mono);
-	font-size: .76rem;
-	color: var(--ink-soft);
-}
-
-.credential-list-secondary li {
-	border-left-color: var(--rule);
-}
-
-/* ---------- Awards ---------- */
-
-.award {
-	margin-bottom: 1.85rem;
-}
-
-.award h2 {
-	margin: 0 0 .15rem;
-	font-size: 1.15rem;
-	line-height: 1.3;
-}
-
-.award-meta {
-	margin: 0 0 .5rem;
-	font-family: var(--mono);
-	font-size: .74rem;
-	letter-spacing: .02em;
-	text-transform: uppercase;
-	color: var(--ink-soft);
-}
-
-.award p:not(.award-meta) {
-	margin: 0;
-	line-height: 1.55;
-}
-
-.contact-cta {
-	margin-top: 2rem;
-	padding-top: 1.25rem;
-	border-top: 1px solid var(--rule);
-}
-
-/* ---------- Motion & print ---------- */
-
-@media (prefers-reduced-motion: reduce) {
-	* {
-		animation-duration: .01ms !important;
-		transition-duration: .01ms !important;
-	}
-}
-
-@media print {
-	.sidebar,
-	.skip-link,
-	.intro-actions {
-		display: none;
-	}
-
-	.content.container {
-		max-width: none;
+	body, h1, h2, h3, h4, p, ul, ol, figure, dl, dd {
 		margin: 0;
-		padding: 0;
+	}
+
+	ul[class] { list-style: none; padding: 0; }
+
+	img { max-width: 100%; display: block; height: auto; }
+}
+
+@layer base {
+	html {
+		-webkit-text-size-adjust: 100%;
+		scroll-behavior: smooth;
 	}
 
 	body {
-		font-size: 11pt;
+		margin: 0;
+		background: var(--bg);
+		color: var(--text);
+		font-family: var(--font-sans);
+		font-size: var(--step-0);
+		line-height: 1.65;
+		font-synthesis-weight: none;
+		-webkit-font-smoothing: antialiased;
 	}
 
-	.role,
-	.award,
-	.skill-group {
-		page-break-inside: avoid;
+	h1, h2, h3 {
+		line-height: 1.2;
+		font-weight: 600;
+		text-wrap: balance;
 	}
+
+	h1 { font-size: clamp(1.7rem, 1.5rem + 0.9vw, 2.25rem); }
+	h2 { font-size: var(--step-1); }
+	h3 { font-size: var(--step-0); }
+
+	p { text-wrap: pretty; }
 
 	a {
-		color: #000;
+		color: var(--accent);
+		text-decoration-thickness: 1px;
+		text-underline-offset: 0.15em;
+	}
+
+	a:hover { color: var(--accent-hover); }
+
+	:focus-visible {
+		outline: 2px solid var(--accent);
+		outline-offset: 2px;
+		border-radius: 2px;
+	}
+
+	::selection {
+		background: var(--accent);
+		color: var(--bg);
+	}
+}
+
+/* ============ layout ============ */
+
+@layer layout {
+	.skip-link {
+		position: absolute;
+		inset-inline-start: -9999px;
+		padding: 0.6rem 1rem;
+		background: var(--surface);
+		color: var(--accent);
+		z-index: 10;
+	}
+
+	.skip-link:focus {
+		inset-inline-start: 0.5rem;
+		inset-block-start: 0.5rem;
+	}
+
+	.topbar {
+		border-block-end: 1px solid var(--edge);
+		background: var(--bg);
+	}
+
+	.topbar-inner {
+		max-width: var(--shell);
+		margin-inline: auto;
+		padding: 0.9rem 1.5rem;
+		display: flex;
+		flex-wrap: wrap;
+		align-items: baseline;
+		gap: 0.5rem 1.5rem;
+	}
+
+	.wordmark {
+		font-size: var(--step-0);
+		font-weight: 600;
+		font-stretch: 108%;
+		letter-spacing: -0.01em;
+		text-decoration: none;
+		color: var(--text);
+		margin-inline-end: auto;
+	}
+
+	.wordmark:hover { color: var(--accent); }
+
+	.topnav {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.35rem 1.15rem;
+		font-family: var(--font-mono);
+		font-size: var(--step--1);
+	}
+
+	.topnav a {
+		color: var(--dim);
+		text-decoration: none;
+	}
+
+	.topnav a:hover { color: var(--accent); }
+
+	.topnav a[aria-current="page"] {
+		color: var(--text);
 		text-decoration: underline;
+		text-decoration-color: var(--accent);
+		text-decoration-thickness: 2px;
+	}
+
+	.shell {
+		max-width: var(--shell);
+		margin-inline: auto;
+		padding: 2.75rem 1.5rem 4rem;
+	}
+
+	.prose { max-width: var(--measure); }
+
+	.prose > * + * { margin-block-start: 1rem; }
+	.prose h2 { margin-block-start: 2.25rem; }
+
+	/* The reset zeroes every margin, so rhythm is declared once here
+	   rather than left to per-element defaults. */
+	.shell > * + * { margin-block-start: 3rem; }
+
+	article > * + * { margin-block-start: 1.5rem; }
+	article > h1 + .lede { margin-block-start: 0.55rem; }
+
+	/* These carry their own top border and padding — a margin on top
+	   would double the gap. */
+	article > .role + .role,
+	article > .award + .award,
+	article > .skill-group + .skill-group,
+	article > .credential-list + h2 { margin-block-start: 0; }
+
+	.site-footer {
+		border-block-start: 1px solid var(--edge);
+		font-family: var(--font-mono);
+		font-size: var(--step--1);
+		color: var(--dim);
+	}
+
+	.site-footer-inner {
+		max-width: var(--shell);
+		margin-inline: auto;
+		padding: 1.5rem;
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.5rem 1.5rem;
+	}
+
+	.site-footer a { color: var(--dim); }
+	.site-footer a:hover { color: var(--accent); }
+	.site-footer p { margin-inline-end: auto; }
+}
+
+/* ============ components ============ */
+
+@layer components {
+
+	/* -- shared -- */
+
+	.eyebrow {
+		font-family: var(--font-mono);
+		font-size: var(--step--1);
+		letter-spacing: 0.06em;
+		color: var(--dim);
+		margin-block-end: 0.85rem;
+	}
+
+	.lede {
+		font-size: var(--step-1);
+		line-height: 1.5;
+		color: var(--text);
+		max-width: var(--measure);
+	}
+
+	.data {
+		font-family: var(--font-mono);
+		font-size: var(--step--1);
+		color: var(--dim);
+		font-variant-numeric: tabular-nums;
+	}
+
+	/* -- hero -- */
+
+	.hero { max-width: var(--measure); }
+
+	.hero h1 {
+		font-size: var(--step-3);
+		font-weight: 700;
+		font-stretch: 112%;
+		letter-spacing: -0.02em;
+		line-height: 1.02;
+		margin-block: 0.75rem 0.6rem;
+	}
+
+	.hero-role {
+		font-family: var(--font-mono);
+		font-size: var(--step--1);
+		letter-spacing: 0.04em;
+		color: var(--accent);
+	}
+
+	.hero-lead {
+		margin-block-start: 1rem;
+		font-size: var(--step-1);
+		line-height: 1.5;
+	}
+
+	.status {
+		display: inline-flex;
+		align-items: center;
+		gap: 0.5rem;
+		font-family: var(--font-mono);
+		font-size: var(--step--1);
+		color: var(--dim);
+	}
+
+	.status::before {
+		content: "";
+		width: 7px;
+		height: 7px;
+		border-radius: 50%;
+		background: var(--onair);
+		flex: none;
+	}
+
+	.actions {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.6rem;
+		margin-block-start: 1.75rem;
+	}
+
+	.btn {
+		display: inline-block;
+		padding: 0.5rem 1.05rem;
+		border: 1px solid var(--edge);
+		border-radius: var(--radius);
+		font-size: var(--step--1);
+		font-family: var(--font-mono);
+		text-decoration: none;
+		color: var(--text);
+		background: var(--surface);
+	}
+
+	.btn:hover {
+		border-color: var(--accent);
+		color: var(--accent);
+	}
+
+	.btn-primary {
+		background: var(--accent);
+		border-color: var(--accent);
+		color: var(--bg);
+	}
+
+	.btn-primary:hover {
+		background: var(--accent-hover);
+		border-color: var(--accent-hover);
+		color: var(--bg);
+	}
+
+	/* -- impact rail: wraps on wide screens, swipes on narrow -- */
+
+	.rail {
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(13rem, 1fr));
+		gap: 1px;
+		background: var(--edge);
+		border: 1px solid var(--edge);
+		border-radius: var(--radius);
+		overflow: hidden;
+	}
+
+	.rail li {
+		background: var(--surface);
+		padding: 1.05rem 1.15rem;
+	}
+
+	.rail-figure {
+		display: block;
+		font-family: var(--font-mono);
+		font-size: var(--step-2);
+		line-height: 1.1;
+		font-variant-numeric: tabular-nums;
+	}
+
+	.rail-label {
+		display: block;
+		margin-block-start: 0.4rem;
+		font-size: var(--step--1);
+		line-height: 1.5;
+		color: var(--dim);
+	}
+
+	@media (max-width: 34rem) {
+		.rail {
+			grid-auto-flow: column;
+			grid-auto-columns: 76%;
+			grid-template-columns: none;
+			overflow-x: auto;
+			scroll-snap-type: x mandatory;
+			overscroll-behavior-x: contain;
+		}
+
+		.rail li { scroll-snap-align: start; }
+	}
+
+	/* -- career timeline (programme schedule) -- */
+
+	.timeline { margin-block: 2.5rem; }
+
+	.timeline-grid {
+		display: grid;
+		grid-template-columns: 5.5rem 1fr;
+		gap: 0 0.75rem;
+		align-items: center;
+	}
+
+	.timeline-axis {
+		display: grid;
+		grid-template-columns: repeat(18, 1fr);
+		font-family: var(--font-mono);
+		font-size: var(--step--1);
+		color: var(--dim);
+		padding-block-end: 0.4rem;
+		border-block-end: 1px solid var(--edge);
+		font-variant-numeric: tabular-nums;
+	}
+
+	.timeline-channel {
+		font-family: var(--font-mono);
+		font-size: var(--step--1);
+		color: var(--dim);
+		letter-spacing: 0.02em;
+	}
+
+	/* Continuous track behind every row, so a year without a role reads
+	   as empty schedule rather than a hole in the layout. */
+	.timeline-row {
+		display: grid;
+		grid-template-columns: repeat(18, 1fr);
+		gap: 2px;
+		padding-block: 0.4rem;
+		background-image: linear-gradient(var(--track), var(--track));
+		background-size: 100% 1px;
+		background-position: 0 center;
+		background-repeat: no-repeat;
+	}
+
+	.timeline-block {
+		border: 0;
+		border-radius: var(--radius);
+		background: var(--panel);
+		box-shadow: inset 3px 0 0 var(--edge);
+		padding: 0.45rem 0.6rem;
+		font-size: var(--step--1);
+		line-height: 1.3;
+		color: var(--text);
+		text-decoration: none;
+		min-width: 0;
+		overflow: hidden;
+		white-space: nowrap;
+		text-overflow: ellipsis;
+	}
+
+	.timeline-block:hover {
+		color: var(--accent);
+		background: color-mix(in oklab, var(--panel), var(--accent) 14%);
+	}
+
+	.timeline-block[data-kind="product"] {
+		box-shadow: inset 3px 0 0 var(--accent);
+	}
+
+	.timeline-block[data-kind="current"] {
+		box-shadow: inset 3px 0 0 var(--onair);
+	}
+
+	.timeline-when { display: none; }
+
+	/* Short-duration blocks are too narrow for a full title at this
+	   width; the accessible name on the link carries the full role. */
+	.timeline-full { display: none; }
+	.timeline-short { display: inline; }
+
+	.timeline-key {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.4rem 1.1rem;
+		margin-block-start: 1rem;
+		font-family: var(--font-mono);
+		font-size: var(--step--1);
+		color: var(--dim);
+	}
+
+	.timeline-key span::before {
+		content: "";
+		display: inline-block;
+		width: 16px;
+		height: 11px;
+		margin-inline-end: 0.45rem;
+		vertical-align: -1px;
+		border-radius: 2px;
+		background: var(--panel);
+		box-shadow: inset 3px 0 0 var(--edge);
+	}
+
+	.timeline-key .k-product::before { box-shadow: inset 3px 0 0 var(--accent); }
+	.timeline-key .k-current::before { box-shadow: inset 3px 0 0 var(--onair); }
+
+	/* Below the point where blocks stop being legible, the schedule
+	   becomes an ordinary list and each block shows its own dates. */
+	@media (max-width: 46rem) {
+		.timeline-grid { grid-template-columns: 1fr; gap: 0; }
+		.timeline-axis { display: none; }
+
+		.timeline-channel {
+			padding-block: 0.9rem 0.3rem;
+			border-block-end: 1px solid var(--edge-soft);
+		}
+
+		.timeline-row {
+			display: flex;
+			flex-direction: column;
+			gap: 0.4rem;
+			background-image: none;
+		}
+
+		.timeline-block {
+			white-space: normal;
+			overflow: visible;
+			text-overflow: clip;
+		}
+
+		.timeline-when {
+			display: block;
+			font-family: var(--font-mono);
+			color: var(--dim);
+		}
+
+		.timeline-full { display: inline; }
+		.timeline-short { display: none; }
+	}
+
+	/* -- roles -- */
+
+	.role {
+		padding-block: 1.6rem;
+		border-block-start: 1px solid var(--edge-soft);
+		max-width: var(--measure);
+		scroll-margin-block-start: 1.5rem;
+	}
+
+	.role:first-of-type { border-block-start: 0; }
+
+	.role h2, .role h3 { margin-block-end: 0.15rem; }
+
+	.role-org { color: var(--text); }
+
+	.role-meta {
+		font-family: var(--font-mono);
+		font-size: var(--step--1);
+		color: var(--dim);
+		margin-block-end: 0.8rem;
+		font-variant-numeric: tabular-nums;
+	}
+
+	.impact-list {
+		margin: 0;
+		padding-inline-start: 1.1rem;
+	}
+
+	.impact-list li { margin-block-end: 0.35rem; }
+
+	.role-focus {
+		margin-block-start: 0.8rem;
+		font-size: var(--step--1);
+		color: var(--dim);
+	}
+
+	.role-focus span {
+		font-family: var(--font-mono);
+		letter-spacing: 0.04em;
+	}
+
+	.section-break {
+		margin-block-start: 3rem;
+		font-family: var(--font-mono);
+		font-size: var(--step--1);
+		letter-spacing: 0.08em;
+		color: var(--dim);
+		font-weight: 400;
+	}
+
+	/* -- skills -- */
+
+	.skill-group { margin-block-end: 2rem; }
+
+	.skill-group h2 {
+		font-size: var(--step-0);
+		padding-block-end: 0.4rem;
+		border-block-end: 1px solid var(--edge);
+		margin-block-end: 0.8rem;
+	}
+
+	.skill-list {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.4rem;
+	}
+
+	.skill-list li {
+		padding: 0.28rem 0.7rem;
+		border: 1px solid var(--edge);
+		border-radius: 999px;
+		font-size: var(--step--1);
+		background: var(--surface);
+	}
+
+	.skill-note {
+		margin-block-end: 0.7rem;
+		font-size: var(--step--1);
+		color: var(--dim);
+	}
+
+	.skill-group-secondary .skill-list li {
+		background: transparent;
+		color: var(--dim);
+	}
+
+	/* -- credentials + awards -- */
+
+	.credential-list li {
+		padding-block: 0.9rem;
+		border-block-start: 1px solid var(--edge-soft);
+		max-width: var(--measure);
+	}
+
+	.credential-title { font-weight: 600; }
+
+	.credential-org {
+		font-family: var(--font-mono);
+		font-size: var(--step--1);
+		color: var(--dim);
+	}
+
+	.credential-list-secondary li { color: var(--dim); }
+
+	.award {
+		padding-block: 1.5rem;
+		border-block-start: 1px solid var(--edge-soft);
+		max-width: var(--measure);
+	}
+
+	.award:first-of-type { border-block-start: 0; }
+	.award h2 { font-size: var(--step-0); margin-block-end: 0.15rem; }
+
+	.award-meta {
+		font-family: var(--font-mono);
+		font-size: var(--step--1);
+		color: var(--dim);
+		margin-block-end: 0.5rem;
+	}
+
+	.whereto-list { max-width: var(--measure); }
+
+	.whereto-list li {
+		padding-block: 0.7rem;
+		border-block-start: 1px solid var(--edge-soft);
+		color: var(--dim);
+	}
+
+	.whereto-list a {
+		font-family: var(--font-mono);
+		font-size: var(--step--1);
+	}
+
+	.contact-cta {
+		margin-block-start: 2rem;
+		padding-block-start: 1.25rem;
+		border-block-start: 1px solid var(--edge);
+	}
+}
+
+/* ============ motion + print ============ */
+
+@media (prefers-reduced-motion: reduce) {
+	html { scroll-behavior: auto; }
+
+	*, *::before, *::after {
+		animation-duration: 0.01ms !important;
+		transition-duration: 0.01ms !important;
+	}
+}
+
+@layer print {
+	@media print {
+		:root {
+			--bg: #fff; --surface: #fff; --panel: #fff;
+			--text: #000; --dim: #333; --edge: #bbb;
+			--edge-soft: #ddd; --accent: #000; --onair: #000; --track: #ddd;
+		}
+
+		.topnav, .skip-link, .actions, .timeline, .site-footer, .whereto-list { display: none; }
+
+		.shell { max-width: none; padding: 0; }
+
+		body { font-size: 10.5pt; }
+
+		.role, .award, .skill-group, .credential-list li { break-inside: avoid; }
+
+		a { text-decoration: none; }
+
+		.prose a[href^="http"]::after {
+			content: " (" attr(href) ")";
+			font-family: var(--font-mono);
+			font-size: 8pt;
+		}
 	}
 }

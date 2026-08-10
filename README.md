@@ -34,14 +34,35 @@ six files**.
 ```
 index.html            Landing page
 pages/                About, career, skills, education, awards
-theme/css/poole.css   Base typography (vendor — do not edit)
-theme/css/hyde.css    Sidebar layout + colour themes (vendor — do not edit)
-theme/css/style.css   Portfolio-specific styles (edit this one)
-theme/css/syntax.css  Code highlighting; unused, kept for a future blog
+theme/css/style.css   All styles — single self-contained sheet
 images/               Profile image, favicon
 robots.txt            Points crawlers at the sitemap
 sitemap.xml           Update when adding or removing a page
 ```
+
+The Poole and Hyde vendor stylesheets have been removed. `style.css` is now
+the only stylesheet and includes its own reset and base typography.
+
+## Design notes
+
+Anything factual — dates, durations, figures — is set in a monospace face;
+prose stays in the sans. The experience page draws the career as a programme
+schedule: employers are channels, years are the horizontal axis, roles are
+blocks sized by duration. Below 46rem it collapses to an ordinary list and
+each block reveals its own dates.
+
+Colour follows `prefers-color-scheme` only — there is no toggle, so both
+modes are first-class and every foreground/background pair is contrast-checked
+at 4.5:1 or better. Tokens live at the top of `style.css`; the cascade is
+organised with `@layer`.
+
+### Editing the timeline
+
+The grid is 18 columns, one per year from 2009 to 2026. Each block is placed
+with an inline `grid-column: start/end`, where column 1 is 2009. Adding a year
+means bumping `repeat(18, ...)` in both `.timeline-axis` and `.timeline-row`,
+and shifting the axis labels. Every block links to its matching role section
+below, so keep the `id` attributes in sync.
 
 ## Local preview
 
