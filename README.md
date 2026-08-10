@@ -35,7 +35,8 @@ six files**.
 index.html            Landing page
 pages/                About, career, skills, education, awards
 theme/css/style.css   All styles — single self-contained sheet
-images/               Profile image, favicon
+images/               Share card, apple-touch icon
+favicon.ico           Multi-resolution site mark (16-256px)
 robots.txt            Points crawlers at the sitemap
 sitemap.xml           Update when adding or removing a page
 ```
@@ -55,6 +56,14 @@ Colour follows `prefers-color-scheme` only — there is no toggle, so both
 modes are first-class and every foreground/background pair is contrast-checked
 at 4.5:1 or better. Tokens live at the top of `style.css`; the cascade is
 organised with `@layer`.
+
+### The mark
+
+`favicon.ico`, `images/apple-touch-icon.png` and `images/share-card.png` are
+generated from geometry, not type — an 'E' whose three bars are schedule
+blocks of differing lengths, matching the timeline. There is no font
+dependency, so it can be regenerated at any size with Pillow. The magenta
+bar is the same accent the current role uses on the experience page.
 
 ### Editing the timeline
 
